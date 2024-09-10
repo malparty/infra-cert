@@ -1,0 +1,28 @@
+# Configuration details can be found here:
+# https://github.com/nimblehq/publish-github-wiki-action
+name: Publish Wiki
+
+on:
+  push:
+    paths:
+      - .github/wiki/**
+    branches:
+      - develop
+
+jobs:
+  publish_wiki:
+    name: Publish Wiki
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Publish Github Wiki
+        uses: nimblehq/publish-github-wiki-action@v1.0
+        with:
+          user_name: bot-nimble
+          user_email: ${{ secrets.GH_EMAIL }}
+          user_access_token: ${{ secrets.GH_TOKEN }}
